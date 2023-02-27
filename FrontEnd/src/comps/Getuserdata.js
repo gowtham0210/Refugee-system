@@ -1,5 +1,6 @@
 import React, { useState }  from "react";
 import { useContract, useContractRead } from "@thirdweb-dev/react";
+import Myprofile from '../comps/pages/Myprofile';
 
 export default function Getuserdata(){
     const [userId, setuserId] = useState("gowtham0210");
@@ -28,15 +29,13 @@ export default function Getuserdata(){
         }catch(error){
             console.log(error)
         }
-        
     }
-
        return(
         <div>
             <button onClick={datas}>getuserdetails</button>
             {!loading ? <h1>{dates.fname}</h1>: <p>Loading...</p>}
+            <Myprofile />
 
         </div>
-
        )
 }

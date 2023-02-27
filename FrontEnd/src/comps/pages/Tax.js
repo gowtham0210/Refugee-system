@@ -1,8 +1,12 @@
-import React from 'react'
+import React from 'react';
+import Navbar from '../Navbar';
 
 function Tax(){
   return (
-    <div>Tax</div>
+    
+    <div>
+      <Navbar />
+      Tax</div>
   )
 }
 

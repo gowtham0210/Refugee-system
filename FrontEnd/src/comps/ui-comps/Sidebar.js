@@ -14,7 +14,7 @@ const Sidebar = () => {
                 <div className='flex-1 text-white'>
                     <ul className='pt-2 pb-4 space-y-1 text-sm'>
                         <li className='rounded-sm'>
-                            <Link to="/myprofile">
+                            <Link to="/home/myprofile">
                                 My Profile
                             </Link>
                         </li>

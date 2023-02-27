@@ -1,7 +1,38 @@
-import React from 'react';
+import React, { useState , useEffect} from 'react';
+import { useContract, useContractRead } from "@thirdweb-dev/react";
 import Sidebar from '../ui-comps/Sidebar';
 
 function Myprofile(){
+    const [userId, setuserId] = useState("gowtham0210");
+    const [loading, setloading] = useState(true);
+    const { contract } = useContract("0xBB417720eBc8b76AdeAe2FF4670bbc650C3E791f");
+    const { data:details, isLoading } = useContractRead(contract, "getUser", userId)
+    const [dates, setdates] = useState([]);
+    useEffect(()=>{
+        const datas = ()=>{
+            let date = [];
+            try{
+                console.log(details)
+                date.push({
+                    fname:details[0],
+                    lname:details[1],
+                    mobile:details[2],
+                    dob:details[3],
+                    age:details[4].toNumber(),
+                    nationality:details[5],
+                    gender:details[6]
+                })
+                setdates(date[0]);
+                // console.log(dates);
+                setloading(false);
+                
+            }catch(error){
+                console.log(error)
+            }
+        }
+        datas();
+
+    },[])
   return (
     <div className='flex flex-row bg-myprofilebg'>
         <div>
@@ -30,7 +61,7 @@ function Myprofile(){
                                 Refugee ID
                             </th>
                             <td className="px-6 py-3">
-                                Gowtham0210
+                                {userId}
                             </td>
                         </tr>
                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -38,7 +69,8 @@ function Myprofile(){
                                 First Name
                             </th>
                             <td className="px-6 py-4">
-                                Gowtham
+                            {/* {details[0]} */}
+                            {loading ? <p>Loading...</p>:details[0]}
                             </td>
                         </tr>
                         <tr className="bg-white dark:bg-gray-900">
@@ -46,7 +78,7 @@ function Myprofile(){
                                 Last Name
                             </th>
                             <td className="px-6 py-4">
-                                Subramani
+                            {loading ? <p>Loading...</p>:details[1]}
                             </td>
                         </tr>
                         <tr className="bg-white dark:bg-gray-800">
@@ -54,7 +86,7 @@ function Myprofile(){
                                Mobile
                             </th>
                             <td className="px-6 py-4">
-                                9080980256
+                            {loading ? <p>Loading...</p>:details[2]}
                             </td>
                         </tr>
                         <tr className="bg-white dark:bg-gray-900">
@@ -62,7 +94,7 @@ function Myprofile(){
                                Date of Birth
                             </th>
                             <td className="px-6 py-4">
-                                02-10-2002
+                            {loading ? <p>Loading...</p>:details[3]}
                             </td>
                         </tr>
                         <tr className="bg-white dark:bg-gray-800">
@@ -70,7 +102,7 @@ function Myprofile(){
                                Age
                             </th>
                             <td className="px-6 py-4">
-                                20
+                            {loading ? <p>Loading...</p>:details[4].toNumber()}
                             </td>
                         </tr>
                         <tr className="bg-white dark:bg-gray-900">
@@ -78,7 +110,7 @@ function Myprofile(){
                                Nationality
                             </th>
                             <td className="px-6 py-4">
-                                Indian
+                            {loading ? <p>Loading...</p>:details[5]}
                             </td>
                         </tr>
                         <tr className="bg-white dark:bg-gray-800">
@@ -86,7 +118,7 @@ function Myprofile(){
                                Gender
                             </th>
                             <td className="px-6 py-4">
-                                M
+                            {loading ? <p>Loading...</p>:details[6]}
                             </td>
                         </tr>
                     </tbody>

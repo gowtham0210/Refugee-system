@@ -1,7 +1,7 @@
 //const User = require("../models/user");
 const userlogin = require("../Mongodb/models/schemas");
 
-exports.signin = async(req,res)=>{
+const signin = async(req,res)=>{
     try{
         const {username, password} = req.body;
         const getusername = await userlogin.findOne({username});
@@ -14,7 +14,6 @@ exports.signin = async(req,res)=>{
                 message:"retrieved successfully",
             })
         }
-
     }catch(error){
         console.log(error);
         return res.status(400).json({
@@ -23,3 +22,5 @@ exports.signin = async(req,res)=>{
         })
     }
 }
+
+module.exports = signin;
