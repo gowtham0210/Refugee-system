@@ -1,9 +1,10 @@
 const express = require('express');
-const cors = require('cors');
-const connectDB = require('./Mongodb/connect.js');
-//const userLogin = require('./router/UserloginRouter.js');
-const userlogin = require("./Mongodb/models/schemas");
-const businessLogin = require("./Mongodb/models/Business_Schemas");
+const cors            = require('cors');
+const connectDB       = require('./Mongodb/connect.js');
+//const userLogin     = require('./router/UserloginRouter.js');
+const userlogin       = require("./Mongodb/models/schemas");
+const businessLogin   = require("./Mongodb/models/Business_Schemas");
+
 
 require('dotenv/config')
 
@@ -16,11 +17,25 @@ app.get('/',(req,res)=>{
     res.send({message:'Hello World'});
 })
 
+app.post('/createlogin',function(req,res){
+    const {_username,_password} = req.query;
+    let newlogincrediantials = new userlogin({
+        username:_username,
+        password:_password
+    })
+    newlogincrediantials.save(function(err,newlogincrediantials){
+        if(err)
+        return res.send("error displays here "+err)
+        else
+        return res.send({status:200, message:"Login Crediantials created successfully",LoginCrediatials:newlogincrediantials})
+    })
+    
+});
+
 //RefugeeLogin
 app.get('/userlogin',async(req,res)=>{
     try{
         const {username,password} = req.query;
-        
         const getusername = await userlogin.findOne({username});
         const retrievedusername = getusername.username;
         const retrievedpassword = getusername.password;
@@ -81,8 +96,9 @@ app.get('/businessLogin',async(req,res)=>{
             message:"Business Login Retrieve Not success"+error
         })
     }
-    
 })
+
+
 
 
 //Starting server

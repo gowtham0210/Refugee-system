@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function HomeLeftContainer(){
    const [username, setusername] = useState("");
@@ -44,7 +47,23 @@ function HomeRightContainer(){
       .then((response)=>{
         if(response.status === 200){
           console.log(response.status);
-          navigate('/home');
+          navigate('/home/myprofile',{
+            state:{
+              user:username
+            }
+          });
+          localStorage.setItem("user",username)
+        }else{
+          toast.error('😴 Username or password is incorrect', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            });
         }
       })
     }
@@ -61,6 +80,19 @@ function HomeRightContainer(){
             <input type="submit" onClick={handleSubmit} placeholder="Login" className='font-poppins text-white cursor-pointer px-5 py-1 rounded-full bg-gray-900 bg-opacity-50 hover:bg-opacity-80'/>
 
           </div>
+          <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
+
         </div>
     )
 }

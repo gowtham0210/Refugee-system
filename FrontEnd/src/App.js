@@ -10,6 +10,7 @@ import Transcations from './comps/pages/Transcations';
 import {  Routes, Route } from 'react-router-dom';
 import Sendmoney from './comps/pages/Sendmoney';
 import Loan from './comps/pages/Loan';
+import Businessbanking from './comps/Business-pages/Businessbanking';
 import ConnectwithWallet from './comps/pages/ConnectwithWallet';
 
 
@@ -20,7 +21,9 @@ class App extends Component{
   return (
     <div>
         {/* <Navbar /> */}
+       
         <Routes>
+          <Route path="/bbanking" element={<Businessbanking />} />
           <Route path="/addrefugee" element={<AddRefugee />} />
           <Route path="/" element={<Login />}/>
           <Route path="/home" element={<Home />}/>
@@ -34,6 +37,7 @@ class App extends Component{
           <Route path="/banking/loan" element={<Loan />} />
           <Route path="/connectwithwallet" element={<ConnectwithWallet />} />
         </Routes>
+       
     </div>
   )
   }

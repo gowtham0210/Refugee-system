@@ -1,42 +1,67 @@
 import React, { useState , useEffect} from 'react';
 import { useContract, useContractRead } from "@thirdweb-dev/react";
 import Sidebar from '../ui-comps/Sidebar';
+import {useLocation} from 'react-router-dom';
+import Navbar from '../Navbar';
 
-function Myprofile(){
-    const [userId, setuserId] = useState("gowtham0210");
+function Myprofile(props){
+    const [userId, setuserId] = useState("");
     const [loading, setloading] = useState(true);
+    let val = {};
+    const [userinfo, setuserinfo] = useState({});
     const { contract } = useContract("0xBB417720eBc8b76AdeAe2FF4670bbc650C3E791f");
-    const { data:details, isLoading } = useContractRead(contract, "getUser", userId)
-    const [dates, setdates] = useState([]);
+    const { data:details, isLoading } = useContractRead(contract, "getUser", userId);
+    const location = useLocation();
     useEffect(()=>{
-        const datas = ()=>{
-            let date = [];
+        console.log(isLoading);
+        // if(location.state.user){
+        //     console.log(location.state.user);
+        // }
             try{
-                console.log(details)
-                date.push({
-                    fname:details[0],
-                    lname:details[1],
+                console.log(details);
+                val = {
+                    firstname:details[0],
+                    lastname:details[1],
                     mobile:details[2],
                     dob:details[3],
                     age:details[4].toNumber(),
                     nationality:details[5],
                     gender:details[6]
-                })
-                setdates(date[0]);
-                // console.log(dates);
+                }
+                console.log(val);
                 setloading(false);
-                
             }catch(error){
                 console.log(error)
             }
-        }
-        datas();
+            //console.log(userinfo);
+    },[userId])
+    const handleclick=()=>{
+        const actuser = localStorage.getItem("user")
+       setuserId(actuser);
+        console.log(userId);
+        setvalues();
+    }
+    const setvalues = ()=>{
+          setuserinfo(userinfo=>({
+                    ...userinfo,
+                    ...val
+        }));
+    console.log(userinfo);
 
-    },[])
+    }
   return (
+    <div>
+        <Navbar />
     <div className='flex flex-row bg-myprofilebg'>
         <div>
+            
+
+        </div>
+        <div>
             <Sidebar/>
+        </div>
+        <div>
+            <button onClick={handleclick}>Get My Infos</button>
         </div>
         <div className='px-3'>
             <div className='container mx-auto h-15 bg-violet-200 mt-10 mr-10 w-100 rounded-2xl '>
@@ -62,6 +87,7 @@ function Myprofile(){
                             </th>
                             <td className="px-6 py-3">
                                 {userId}
+                                
                             </td>
                         </tr>
                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -70,7 +96,7 @@ function Myprofile(){
                             </th>
                             <td className="px-6 py-4">
                             {/* {details[0]} */}
-                            {loading ? <p>Loading...</p>:details[0]}
+                            {isLoading? <p>Loading...</p>: details[0]}
                             </td>
                         </tr>
                         <tr className="bg-white dark:bg-gray-900">
@@ -78,7 +104,7 @@ function Myprofile(){
                                 Last Name
                             </th>
                             <td className="px-6 py-4">
-                            {loading ? <p>Loading...</p>:details[1]}
+                            {isLoading ? <p>Loading...</p>:details[1]}
                             </td>
                         </tr>
                         <tr className="bg-white dark:bg-gray-800">
@@ -86,7 +112,7 @@ function Myprofile(){
                                Mobile
                             </th>
                             <td className="px-6 py-4">
-                            {loading ? <p>Loading...</p>:details[2]}
+                            {isLoading ? <p>Loading...</p>:details[2]}
                             </td>
                         </tr>
                         <tr className="bg-white dark:bg-gray-900">
@@ -94,7 +120,7 @@ function Myprofile(){
                                Date of Birth
                             </th>
                             <td className="px-6 py-4">
-                            {loading ? <p>Loading...</p>:details[3]}
+                            {isLoading ? <p>Loading...</p>:details[3]}
                             </td>
                         </tr>
                         <tr className="bg-white dark:bg-gray-800">
@@ -102,7 +128,7 @@ function Myprofile(){
                                Age
                             </th>
                             <td className="px-6 py-4">
-                            {loading ? <p>Loading...</p>:details[4].toNumber()}
+                            {isLoading ? <p>Loading...</p>:details[4].toNumber()}
                             </td>
                         </tr>
                         <tr className="bg-white dark:bg-gray-900">
@@ -110,7 +136,7 @@ function Myprofile(){
                                Nationality
                             </th>
                             <td className="px-6 py-4">
-                            {loading ? <p>Loading...</p>:details[5]}
+                            {isLoading ? <p>Loading...</p>:details[5]}
                             </td>
                         </tr>
                         <tr className="bg-white dark:bg-gray-800">
@@ -118,7 +144,7 @@ function Myprofile(){
                                Gender
                             </th>
                             <td className="px-6 py-4">
-                            {loading ? <p>Loading...</p>:details[6]}
+                            {isLoading ? <p>Loading...</p>:details[6]}
                             </td>
                         </tr>
                     </tbody>
@@ -126,6 +152,7 @@ function Myprofile(){
                 </div>
             </div>
         </div>
+    </div>
     </div>
   )
 }
