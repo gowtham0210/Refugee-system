@@ -54,10 +54,6 @@ function Myprofile(props){
         <Navbar />
     <div className='flex flex-row bg-myprofilebg'>
         <div>
-            
-
-        </div>
-        <div>
             <Sidebar/>
         </div>
         <div>

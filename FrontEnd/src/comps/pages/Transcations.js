@@ -1,7 +1,20 @@
 import React from 'react'
 import BankSidebar from '../ui-comps/BankSidebar';
+import { useContract, useContractWrite } from "@thirdweb-dev/react";
 
 function Transcations(){
+  const { contract } = useContract("0xBB417720eBc8b76AdeAe2FF4670bbc650C3E791f");
+  const { mutateAsync: gettranscationhistory, isLoading } = useContractWrite(contract, "gettranscationhistory");
+  const call = async () => {
+    try {
+      let _userId = "gowtham0210"
+      const data = await gettranscationhistory([ _userId ]);
+      console.info("contract call successs", data, data.receipt.events);
+    } catch (err) {
+      console.error("contract call failure", err);
+    }
+  }
+
   return (
     <div className="flex flex-row">
     <div>
@@ -16,7 +29,8 @@ function Transcations(){
                         <div className='place-self-end pr-5 text-lg uppercase pt-5'>Ethereum</div>
                         </div>
                     </div>
-                    <div className=''>
+                    <div>
+                      <button onClick={call}>Click Me</button>
 
                     </div>
 
