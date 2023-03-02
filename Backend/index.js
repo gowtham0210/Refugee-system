@@ -58,9 +58,10 @@ app.get('/gettranscations',async(req,res)=>{
     // const _sender = gettrans.sender;
        // res.json(gettrans)
        if(gettrans){
-        return res.send({status:200, message:`Transcation Retrieved Successfully`,Trans:gettrans})
+        return res.json(gettrans)
+        //return res.send({status:200, message:`Transcation Retrieved Successfully`,Trans:gettrans})
         }else{
-            return res.send({status:400,message:"No Transcation Found"})
+            return res.send({status:200,message:"No Transcation Found"})
         }
        }catch(err){
         console.log(err)

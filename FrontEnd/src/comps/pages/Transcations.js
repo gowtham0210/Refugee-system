@@ -4,17 +4,42 @@ import Navbar from '../Navbar';
 
 function Transcations(){
   const [userid, setuser] = useState("");
-  useEffect(()=>{
-    const actuser = localStorage.getItem("user");
-    setuser(actuser);
+  const [data, setdata] = useState([]);
+  let actuser="";
+  var res;
+
+  const getapidata = async()=>{
     try{
-      fetch(``)
-
-    }catch(err){
-      console.log("The catch error is "+err);
+      const res = await fetch(`http://localhost:8080/gettranscations?sendid=${localStorage.getItem("user")}`)
+      .then((response)=>{
+        //console.log(response.json())
+       response.json();
+      })
+      .then((json)=>console.log(json))
+      .catch(err=>console.log(err))
+      console.log("Working GetApidata function");
+      //setdata(ress);
+      console.log(res)
     }
+    catch(err){
+       console.log(err)
+    }
+  }
+  useEffect(()=>{
+    actuser = localStorage.getItem("user");
+    setuser(actuser);
+    console.log("Active user is "+actuser)
+    //console.log(userid);
+    //getapidata()
+    fetch(`http://localhost:8080/gettranscations?sendid=${localStorage.getItem("user")}`)
+      .then(response=>{
+        this.setdata({data:response.data})
+      })
+      .catch(err=>console.log(err))
+      console.log(data)
 
-  },[])
+
+  },[actuser])
 
   return (
     <div>
@@ -33,11 +58,17 @@ function Transcations(){
                         </div>
                     </div>
                     <div>
+                      {userid}
                       <button>Click Me</button>
+                      {/* {data && data.map(item=>(
+                      <li key={item._id}>
+                        <p>Sender:{item.sender}</p>
+                        <p>Receiver:{item.receiver}</p>
+                      </li>
+                     ))} */}
 
                     </div>
                     <div>
-                      {userid}
                     </div>
 
                 </div>
