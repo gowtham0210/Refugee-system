@@ -1,21 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BankSidebar from '../ui-comps/BankSidebar';
-import { useContract, useContractWrite } from "@thirdweb-dev/react";
+import Navbar from '../Navbar';
 
 function Transcations(){
-  const { contract } = useContract("0xBB417720eBc8b76AdeAe2FF4670bbc650C3E791f");
-  const { mutateAsync: gettranscationhistory, isLoading } = useContractWrite(contract, "gettranscationhistory");
-  const call = async () => {
-    try {
-      let _userId = "gowtham0210"
-      const data = await gettranscationhistory([ _userId ]);
-      console.info("contract call successs", data, data.receipt.events);
-    } catch (err) {
-      console.error("contract call failure", err);
+  const [userid, setuser] = useState("");
+  useEffect(()=>{
+    const actuser = localStorage.getItem("user");
+    setuser(actuser);
+    try{
+      fetch(``)
+
+    }catch(err){
+      console.log("The catch error is "+err);
     }
-  }
+
+  },[])
 
   return (
+    <div>
+      <Navbar />
     <div className="flex flex-row">
     <div>
       <BankSidebar />
@@ -30,8 +33,11 @@ function Transcations(){
                         </div>
                     </div>
                     <div>
-                      <button onClick={call}>Click Me</button>
+                      <button>Click Me</button>
 
+                    </div>
+                    <div>
+                      {userid}
                     </div>
 
                 </div>
@@ -40,6 +46,7 @@ function Transcations(){
 
 
         </div>
+    </div>
     </div>
     </div>
   )

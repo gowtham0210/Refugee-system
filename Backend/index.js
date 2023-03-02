@@ -31,8 +31,9 @@ app.post('/createlogin',function(req,res){
         return res.send({status:200, message:"Login Crediantials created successfully",LoginCrediatials:newlogincrediantials})
     })
 });
+
 app.post('/transcations',function(req,res){
-    const {_senderid,_sender,_receiverid,_receiver,_amount,_subsidy} = req.query;
+    const {_senderid,_sender,_receiverid,_receiver,_amount,_subsidy,_transtype} = req.query;
     let newtranscation = new transcation({
         senderid:_senderid,
         sender:_sender,
@@ -40,6 +41,7 @@ app.post('/transcations',function(req,res){
         receiverid:_receiverid,
         amount:_amount,
         subsidy:_subsidy,
+        transfertype:_transtype
     })
     newtranscation.save(function(err,newtranscation){
         if(err)
@@ -48,7 +50,23 @@ app.post('/transcations',function(req,res){
         return res.send({status:200,message:"Transcation Added Successfully",Transcation:newtranscation})
     })
 });
-
+app.get('/gettranscations',async(req,res)=>{
+    try{
+    const {sendid} = req.query;
+    const gettrans = await transcation.find({senderid:(sendid)});
+    // const _senderid = gettrans.senderid;
+    // const _sender = gettrans.sender;
+       // res.json(gettrans)
+       if(gettrans){
+        return res.send({status:200, message:`Transcation Retrieved Successfully`,Trans:gettrans})
+        }else{
+            return res.send({status:400,message:"No Transcation Found"})
+        }
+       }catch(err){
+        console.log(err)
+        return res.send({status:400,message:"The error Message is "+err})
+    }
+});
 //RefugeeLogin
 app.get('/userlogin',async(req,res)=>{
     try{
@@ -72,6 +90,7 @@ app.get('/userlogin',async(req,res)=>{
         })
     }
 })
+
 app.get('/test',async(req,res)=>{
     try{
         console.log("Working")

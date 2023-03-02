@@ -7,7 +7,8 @@ const Transcation_schema = new Schema({
     receiverid:{type:String, required:true},
     receiver:{type:String, required:true},
     amount:{type:String,required:true},
-    subsidy:{type:String,required:true}
+    subsidy:{type:String,required:true},
+    transfertype:{type:String,required:true},
 });
 
 

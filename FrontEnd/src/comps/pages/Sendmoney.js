@@ -2,6 +2,7 @@ import React from "react";
 import BankSidebar from "../ui-comps/BankSidebar";
 import { useContract, useContractWrite } from "@thirdweb-dev/react";
 import {ethers} from "ethers";
+import Navbar from '../Navbar';
 
 function Sendmoney(){
     const { contract } = useContract("0xBB417720eBc8b76AdeAe2FF4670bbc650C3E791f");
@@ -13,6 +14,7 @@ function Sendmoney(){
     let _R_userid = "";
     let transtype = "";
     let _amt = 0;
+    let _subsidy = 45;
 
     const call = () => {
         try {
@@ -21,37 +23,31 @@ function Sendmoney(){
             _Rname = "Naresh";
             _R_userid = "naresh2002";
             transtype = "food";
-            _amt = ethers.utils.parseEther("0.000001");
-            const data = transfermoney([ _Sname, _S_userid, _Rname, _R_userid, transtype, _amt ]);
+            _amt = ethers.utils.parseEther("0.00000001");
+            const data = transfermoney([ _Sname, _S_userid, _Rname, _R_userid, transtype, _amt ]).then(()=>{storetranscations()});
             console.info("contract call successs", data);
-            storetrans();
         } catch (err) {
         console.error("contract call failure", err);
         }
     }
 
-    const storetrans=()=>{
+    const storetranscations=()=>{
         try{
-            let datee = new Date()
-            const unixTime = datee.getTime()
-            const unixtimeinsec = Math.floor(unixTime/1000);
-            console.log(unixtimeinsec);
-            let _datetime = unixtimeinsec;
-            let _message = "";
-            const transdata = storeTransactionDetails([ _S_userid, _Sname, _Rname, _R_userid, _amt, _message, _datetime ]);
-            transdata.then((val)=>{
-                console.log("promise then"+val);
+            fetch(`http://localhost:8080/transcations?_senderid=${_S_userid}&_sender=${_Sname}&_receiverid=${_R_userid}&_receiver=${_Rname}&_amount=${_amt}&_subsidy=${_subsidy}&_transtype=${transtype}`,{method:'POST',headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }})
+            .then((response)=>{
+                if(response.status === 200){
+                    console.log(response.json());
+                }
             })
-            .catch((err)=>{
-                console.log("promise catch error"+err);
-            });
-            //console.log(transdata);
         }catch(err){
-            console.log("StoreTranscation contract failed",err);
+            console.log("The error is "+err)
         }
     }
     return(
         <div>
+            <Navbar />
         <div className="flex flex-row">
             <div>
                 <BankSidebar />

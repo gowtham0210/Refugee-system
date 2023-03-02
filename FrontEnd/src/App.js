@@ -12,6 +12,7 @@ import Sendmoney from './comps/pages/Sendmoney';
 import Loan from './comps/pages/Loan';
 import Businessbanking from './comps/Business-pages/Businessbanking';
 import ConnectwithWallet from './comps/pages/ConnectwithWallet';
+import Updatelogin from './comps/pages/Updatelogin';
 
 
 
@@ -21,7 +22,6 @@ class App extends Component{
   return (
     <div>
         {/* <Navbar /> */}
-       
         <Routes>
           <Route path="/bbanking" element={<Businessbanking />} />
           <Route path="/addrefugee" element={<AddRefugee />} />
@@ -32,12 +32,12 @@ class App extends Component{
           <Route path="/tax" element={<Tax />} />
           <Route path="/login" element={<Login />} />
           <Route path="/home/myprofile" element={<Myprofile />} />
+          <Route path="/home/updatelogin" element={<Updatelogin />} />
           <Route path="/transcations" element={<Transcations />} />
           <Route path="/sendmoney" element={<Sendmoney />} />
-          <Route path="/banking/loan" element={<Loan />} />
-          <Route path="/connectwithwallet" element={<ConnectwithWallet />} />
+          <Route path="/banking/tax" element={<Loan />} />
+          <Route path="/home/connectwithwallet" element={<ConnectwithWallet />} />
         </Routes>
-       
     </div>
   )
   }

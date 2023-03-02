@@ -19,12 +19,12 @@ const Sidebar = () => {
                             </Link>
                         </li>
                         <li className='rounded-sm'>
-                            <Link to="/connectwithwallet">
+                            <Link to="/home/connectwithwallet">
                                 Connect with wallet
                             </Link>
                         </li>
                         <li className='rounded-sm'>
-                            <Link to="/updatelogin">
+                            <Link to="/home/updatelogin">
                                 Update Login Credatinals
                             </Link>
                         </li>

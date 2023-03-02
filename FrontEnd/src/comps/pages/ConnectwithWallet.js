@@ -2,6 +2,7 @@ import React from  "react";
 import { useAddress, useMetamask } from "@thirdweb-dev/react";
 import Sidebar from '../ui-comps/Sidebar';
 import { useContract, useContractWrite } from "@thirdweb-dev/react";
+import Navbar from '../Navbar';
 
 export default function ConnectwithWallet(){
     const connectWithMetamask = useMetamask();
@@ -24,6 +25,8 @@ export default function ConnectwithWallet(){
     }
 
     return(
+        <div>
+            <Navbar />
         <div className='flex flex-row bg-myprofilebg'>
             <div>
                 <Sidebar />
@@ -42,6 +45,7 @@ export default function ConnectwithWallet(){
                 </div>
                 
                 </div>
+        </div>
         </div>
     )
 }
