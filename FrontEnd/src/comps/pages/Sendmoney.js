@@ -51,12 +51,14 @@ function Sendmoney(){
         }
     }
     return(
-    <div className="flex flex-row">
         <div>
-            <BankSidebar />
-        </div>
-        <div>
-            <button onClick = {call}>Send Money</button>
+        <div className="flex flex-row">
+            <div>
+                <BankSidebar />
+            </div>
+            <div>
+                <button onClick = {call}>Send Money</button>
+            </div>
         </div>
     </div>
     )

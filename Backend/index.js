@@ -1,9 +1,10 @@
-const express = require('express');
-const cors            = require('cors');
-const connectDB       = require('./Mongodb/connect.js');
-//const userLogin     = require('./router/UserloginRouter.js');
-const userlogin       = require("./Mongodb/models/schemas");
-const businessLogin   = require("./Mongodb/models/Business_Schemas");
+const express         =     require('express');
+const cors            =     require('cors');
+const connectDB       =     require('./Mongodb/connect.js');
+//const userLogin     =     require('./router/UserloginRouter.js');
+const userlogin       =     require("./Mongodb/models/schemas");
+const businessLogin   =     require("./Mongodb/models/Business_Schemas");
+const transcation     =     require("./Mongodb/models/Transcation_Schemas");
 
 
 require('dotenv/config')
@@ -29,7 +30,23 @@ app.post('/createlogin',function(req,res){
         else
         return res.send({status:200, message:"Login Crediantials created successfully",LoginCrediatials:newlogincrediantials})
     })
-    
+});
+app.post('/transcations',function(req,res){
+    const {_senderid,_sender,_receiverid,_receiver,_amount,_subsidy} = req.query;
+    let newtranscation = new transcation({
+        senderid:_senderid,
+        sender:_sender,
+        receiver:_receiver,
+        receiverid:_receiverid,
+        amount:_amount,
+        subsidy:_subsidy,
+    })
+    newtranscation.save(function(err,newtranscation){
+        if(err)
+        return res.send("Error display: "+err)
+        else
+        return res.send({status:200,message:"Transcation Added Successfully",Transcation:newtranscation})
+    })
 });
 
 //RefugeeLogin
