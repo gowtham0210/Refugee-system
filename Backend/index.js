@@ -51,14 +51,16 @@ app.post('/transcations',function(req,res){
     })
 });
 app.get('/gettranscations',async(req,res)=>{
+    const jsondata = {datas:[]}
     try{
     const {sendid} = req.query;
     const gettrans = await transcation.find({senderid:(sendid)});
-    // const _senderid = gettrans.senderid;
-    // const _sender = gettrans.sender;
+    const _senderid = gettrans.senderid;
+    const _sender = gettrans.sender;
        // res.json(gettrans)
        if(gettrans){
-        return res.json(gettrans)
+        //res.send({gettrans})
+        return res.send({status:200, message:"Transcation Received",trans:gettrans})
         //return res.send({status:200, message:`Transcation Retrieved Successfully`,Trans:gettrans})
         }else{
             return res.send({status:200,message:"No Transcation Found"})
@@ -119,7 +121,7 @@ app.get('/businessLogin',async(req,res)=>{
                     success:true,
                     message:"Business login retrieved successfully",
                 })
-        }else{
+        }else{ 
             console.log(username,password);
             return res.status(200).json({
                 success:true,

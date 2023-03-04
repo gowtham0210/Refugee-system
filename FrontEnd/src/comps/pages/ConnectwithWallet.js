@@ -31,20 +31,27 @@ export default function ConnectwithWallet(){
             <div>
                 <Sidebar />
             </div>
-            <div>
-                <h1> Connect With Wallet</h1>
-            
-            <button  onClick={connectWithMetamask}> click me
-                </button>
-                <div>
-                <p className="text-xl">{address}</p>
-
+            <div className="ml-72 mt-40 bg-zinc-300 h-60 w-98 rounded shadow-lg">
+                <div className="px-10 grid grid-cols-3 gap-4 content-center">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                    <div className="py-10">
+                    <div>
+                        <h1> Connect With Wallet</h1>
+                    </div>
+                    <div>
+                         <button  onClick={connectWithMetamask}> click me</button>
+                    </div>
+                    <div>
+                        <p className="text-xl">{address}</p> </div>
+                    <div>
+                        Map With my account<button onClick={mapadd}>MAP</button>
+                    </div>
+                    </div>
                 </div>
-                <div>
-                    Map With my account<button onClick={mapadd}>MAP</button>
-                </div>
-                
-                </div>
+            </div>
         </div>
         </div>
     )

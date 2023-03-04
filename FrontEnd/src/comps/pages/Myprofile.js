@@ -5,7 +5,7 @@ import {useLocation} from 'react-router-dom';
 import Navbar from '../Navbar';
 
 function Myprofile(props){
-    const [userId, setuserId] = useState("");
+    const [userId, setuserId] = useState();
     const [loading, setloading] = useState(true);
     let val = {};
     const [userinfo, setuserinfo] = useState({});
@@ -13,10 +13,10 @@ function Myprofile(props){
     const { data:details, isLoading } = useContractRead(contract, "getUser", userId);
     const location = useLocation();
     useEffect(()=>{
-        console.log(isLoading);
-        // if(location.state.user){
-        //     console.log(location.state.user);
-        // }
+        const actuser = localStorage.getItem("user")
+            setuserId(actuser);
+            console.log(userId);
+            console.log(isLoading);
             try{
                 console.log(details);
                 val = {
@@ -34,21 +34,12 @@ function Myprofile(props){
                 console.log(error)
             }
             //console.log(userinfo);
-    },[userId])
-    const handleclick=()=>{
-        const actuser = localStorage.getItem("user")
-       setuserId(actuser);
-        console.log(userId);
-        setvalues();
-    }
-    const setvalues = ()=>{
-          setuserinfo(userinfo=>({
-                    ...userinfo,
-                    ...val
-        }));
-    console.log(userinfo);
+    },[])
+        // const handleclick=()=>{
+            
+        // }
 
-    }
+    
   return (
     <div>
         <Navbar />
@@ -56,16 +47,15 @@ function Myprofile(props){
         <div>
             <Sidebar/>
         </div>
-        <div>
-            <button onClick={handleclick}>Get My Infos</button>
-        </div>
         <div className='px-3'>
             <div className='container mx-auto h-15 bg-violet-200 mt-10 mr-10 w-100 rounded-2xl '>
                 <h1 className='text-5xl font-roboto text-violet-700 px-96'>MY INFORMATIONS</h1>
             </div>
-            <div className='container flex flex-row mx-auto h-5/6 bg-gray-100 mt-10 mr-10 w-100 rounded-2xl'>
-                <div className="pr-96 ml-52 py-36 mr-40 overflow-x-auto">
-                   <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            {/* className='container flex flex-row mx-auto h-5/6 bg-gray-100 mt-10 mr-10 w-100 rounded-2xl' */}
+            <div >
+                {/* className="pr-96 ml-52 py-36 mr-40 overflow-x-auto" */}
+                <div >
+                   <table className="ml-52 mt-20 text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" className="px-44 py-3 text-white">
@@ -83,7 +73,6 @@ function Myprofile(props){
                             </th>
                             <td className="px-6 py-3">
                                 {userId}
-                                
                             </td>
                         </tr>
                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
