@@ -47,13 +47,13 @@ export default function  Updatelogin(){
                     theme: "colored",
                     });
             }else{
-                if(username == localStorage.getItem("user")){
-                    if(password == Cpassword){
+                if(username === localStorage.getItem("user")){
+                    if(password === Cpassword){
                     fetch(`http://localhost:8080/updatelogin?username=${username}&password=${password}`,
                     {method:"PATCH",headers: {
                         "Content-type": "application/json; charset=UTF-8"
                     }}).then((response)=>{
-                        if(response.status===200){
+                        if(response.status === 200){
                             toast.success('Password Updated successfully', {
                                 position: "top-right",
                                 autoClose: 5000,

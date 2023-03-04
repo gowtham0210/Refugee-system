@@ -27,15 +27,15 @@ class App extends Component{
           <Route path="/addrefugee" element={<AddRefugee />} />
           <Route path="/" element={<Login />}/>
           <Route path="/home" element={<Home />}/>
-          <Route path="/banking" element={<Banking />}/>
+          <Route path="/banking/transcations" element={<Transcations />}/>
           <Route path="/government-schemes" element={<Govtschemes />} />
           <Route path="/tax" element={<Tax />} />
           <Route path="/login" element={<Login />} />
           <Route path="/home/myprofile" element={<Myprofile />} />
           <Route path="/home/updatelogin" element={<Updatelogin />} />
-          <Route path="/transcations" element={<Transcations />} />
-          <Route path="/sendmoney" element={<Sendmoney />} />
-          <Route path="/banking/tax" element={<Loan />} />
+          {/* <Route path="/transcations" element={<Transcations />} /> */}
+          <Route path="/banking/sendmoney" element={<Sendmoney />} />
+          <Route path="/banking/tax" element={<Tax />} />
           <Route path="/home/connectwithwallet" element={<ConnectwithWallet />} />
         </Routes>
     </div>

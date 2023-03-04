@@ -72,8 +72,8 @@ function Transcations(){
                             <th></th>
                           </tr>
                         </thead>
-                        {/* style:"tr:nth-child(even){background:#f2f2f2;}" */}
-                        <tbody >
+                        {/* style:"" */}
+                        <tbody>
                       {data.map((eachtrans)=>{
                           return(
                             <tr key={eachtrans._id}>

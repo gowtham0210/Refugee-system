@@ -14,12 +14,12 @@ const BankSidebar = () => {
                 <div className='flex-1 text-white'>
                     <ul className='pt-2 pb-4 space-y-1 text-xl'>
                         <li className='rounded-sm'>
-                            <Link to="/transcations">
+                            <Link to="/banking/transcations">
                                 Transcations
                             </Link>
                         </li>
                         <li className='rounded-sm'>
-                            <Link to="/sendmoney">
+                            <Link to="/banking/sendmoney">
                                 Send Money
                             </Link>
                         </li>
