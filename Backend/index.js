@@ -94,6 +94,22 @@ app.get('/userlogin',async(req,res)=>{
     }
 })
 
+app.patch('/updatelogin',async(req,res)=>{
+    try{
+        const {username, password} = req.query;
+        const updatelogincred = await userlogin.updateOne({username:username},{$set:{password:password}});
+        console.log("Updatelogin working"+updatelogincred);
+        return res.status(200).json({
+            success:true,
+            message:"Update Login working ",
+            update:updatelogincred
+        })
+    }catch(err){
+        console.log("err"+err)
+    }
+
+})
+
 app.get('/test',async(req,res)=>{
     try{
         console.log("Working")

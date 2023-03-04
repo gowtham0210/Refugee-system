@@ -1,4 +1,4 @@
-import React from "react";
+import {React, useState} from "react";
 import BankSidebar from "../ui-comps/BankSidebar";
 import { useContract, useContractWrite } from "@thirdweb-dev/react";
 import {ethers} from "ethers";
@@ -6,26 +6,42 @@ import Navbar from '../Navbar';
 
 function Sendmoney(){
     const { contract } = useContract("0xBB417720eBc8b76AdeAe2FF4670bbc650C3E791f");
-    const { mutateAsync: transfermoney, isLoading } = useContractWrite(contract, "transfermoney");
-    const { mutateAsync: storeTransactionDetails} = useContractWrite(contract, "storeTransactionDetails");
-    let _Sname="";
-    let _S_userid = "";
-    let _Rname = "";
-    let _R_userid = "";
-    let transtype = "";
-    let _amt = 0;
-    let _subsidy = 45;
+    //const { mutateAsync: transfermoney, isLoading } = useContractWrite(contract, "transfermoney");
+    //const { mutateAsync: storeTransactionDetails} = useContractWrite(contract, "storeTransactionDetails");
+    const [_Sname ,setsendername ]=useState();
+    const [_S_userid, setsenderuserid ]=useState();
+    const [_Rname, setreceivername ]=useState();
+    const [_R_userid, setreceiverid ]=useState();
+    const [transtype, settransfertype ]=useState();
+    const [_amt, setamt ] = useState();
+    const [ethamt, setethamt] = useState();
+    const [_subsidy, setsubsidy ] = useState();
+
+     const connectionwallet = async()=>{
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const accounts = await provider.send("eth_requestAccounts", []);
+        const balance = await provider.getBalance(accounts[0]);
+        const balanceInEther = ethers.utils.formatEther(balance);
+        //const block = await provider.getBlockNumber();
+        //console.log(balance, balanceInEther)
+        setamt(ethers.utils.parseEther("0.00000001"));
+        //setethamt(ethers.utils.formatEther(_amt))
+        const amount = _amt;
+        const etmt = ethers.utils.formatEther(amount)
+        setethamt(etmt)
+        console.log(ethamt);
+        console.log(balanceInEther)
+
+
+    }
 
     const call = () => {
         try {
-            _Sname = "gowtham";
-            _S_userid = "gowtham0210";
-            _Rname = "Naresh";
-            _R_userid = "naresh2002";
-            transtype = "food";
-            _amt = ethers.utils.parseEther("0.00000001");
-            const data = transfermoney([ _Sname, _S_userid, _Rname, _R_userid, transtype, _amt ]).then(()=>{storetranscations()});
-            console.info("contract call successs", data);
+            connectionwallet();
+            
+            
+            //const data = transfermoney([ _Sname, _S_userid, _Rname, _R_userid, transtype, _amt ]).then(()=>{storetranscations()});
+            //console.info("contract call successs", data);
         } catch (err) {
         console.error("contract call failure", err);
         }

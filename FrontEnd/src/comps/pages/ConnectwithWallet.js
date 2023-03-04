@@ -23,7 +23,6 @@ export default function ConnectwithWallet(){
           }
 
     }
-
     return(
         <div>
             <Navbar />
