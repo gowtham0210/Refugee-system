@@ -1,7 +1,7 @@
 import React from 'react'
 import { HomeLeftContainer } from '../ui-comps/Home-left-container';
 import {HomeRightContainer} from '../ui-comps/Home-left-container';
-const img = "https://images.pexels.com/photos/9993426/pexels-photo-9993426.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
+const img = "https://images.unsplash.com/photo-1560568267-b6d2c01ece7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80";
 
 
 function Login(){

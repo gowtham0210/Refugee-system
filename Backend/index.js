@@ -54,7 +54,7 @@ app.get('/gettranscations',async(req,res)=>{
     const jsondata = {datas:[]}
     try{
     const {sendid} = req.query;
-    const gettrans = await transcation.find({senderid:(sendid)});
+    const gettrans = await transcation.find({$or:[{senderid:(sendid)},{receiverid:(sendid)}]});
     const _senderid = gettrans.senderid;
     const _sender = gettrans.sender;
        // res.json(gettrans)
@@ -82,6 +82,11 @@ app.get('/userlogin',async(req,res)=>{
             return res.status(200).json({
                 success:true,
                 message:"retrieved successfully",
+            })
+        }else{
+            return res.status(404).json({
+                success:false,
+                message:"No Login details found",
             })
         }
     }
@@ -139,7 +144,7 @@ app.get('/businessLogin',async(req,res)=>{
                 })
         }else{ 
             console.log(username,password);
-            return res.status(200).json({
+            return res.status(404).json({
                 success:true,
                 message:"Business Login Route working but not retrieve"
             })

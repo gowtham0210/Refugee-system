@@ -1,28 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import BankSidebar from '../ui-comps/BankSidebar';
 import Navbar from '../Navbar';
-import Trans from '../ui-comps/transcomp';
-import { useAddress, useMetamask } from "@thirdweb-dev/react";
+//import { useAddress, useMetamask } from "@thirdweb-dev/react";
 const ethers = require('ethers')
 
 function Transcations(){
   const [userid, setuser] = useState("");
   const [data, setdata] = useState([]);
-  //const [isloading, setloading] = useState(true);
   const [balanceInEther, setbalanceinether] = useState();
-  let actuser="";
-  var res;
 
-  const getbalance = async()=>{
-        const provider = new ethers.providers.Web3Provider(window.ethereum)
-        const accounts = await provider.send("eth_requestAccounts", []);
-        const balance = await provider.getBalance(accounts[0]);
-        const balanceInEther = ethers.utils.formatEther(balance);
-        setbalanceinether(balanceInEther)
-  }
+
 
   useEffect(()=>{
-    getbalance();
+
     console.log("Active user is "+localStorage.getItem("user"))
     fetch(`http://localhost:8080/gettranscations?sendid=${localStorage.getItem("user")}`)
       .then(function(response){
@@ -37,6 +27,17 @@ function Transcations(){
       })
       .catch(err=>console.log(err))
       console.log(data)
+
+      const getbalance = async()=>{
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const accounts = await provider.send("eth_requestAccounts", []);
+        const balance = await provider.getBalance(accounts[0]);
+        const balanceInEther = ethers.utils.formatEther(balance);
+        setbalanceinether(balanceInEther)
+      }
+
+      getbalance();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   return (
@@ -55,7 +56,7 @@ function Transcations(){
                         <div className='place-self-end pr-5 text-lg uppercase pt-4'>Ethereum</div>
                         </div>
                         <div className='mt-14 pl-3'>
-                          <p>{balanceInEther==""? "loading":balanceInEther} ETH</p>
+                          <p>{balanceInEther===""? "loading":balanceInEther} ETH</p>
                         </div>
                     </div>
                     </div>
@@ -64,11 +65,12 @@ function Transcations(){
                       <table className="table-auto w-full">
                         <thead className='bg-gray-50 border-b-2 border-gray-200'>
                           <tr>
-                            <th className='p-3 text-sm font-semibold tracking-wide text-center'>Receiverid</th>
-                            <th className='p-3 text-sm font-semibold tracking-wide text-center'>Receiver</th>
+                            <th className='p-3 text-sm font-semibold tracking-wide text-center'>Id</th>
+                            <th className='p-3 text-sm font-semibold tracking-wide text-center'>Name</th>
                             <th className='p-3 text-sm font-semibold tracking-wide text-center'>Amount</th>
                             <th className='p-3 text-sm font-semibold tracking-wide text-center'>Subsidy</th>
                             <th className='p-3 text-sm font-semibold tracking-wide text-center'>Transfertype</th>
+                            <th className='p-3 text-sm font-semibold tracking-wide text-center'></th>
                             <th></th>
                           </tr>
                         </thead>
@@ -77,11 +79,16 @@ function Transcations(){
                       {data.map((eachtrans)=>{
                           return(
                             <tr key={eachtrans._id}>
-                              <td className='p-3 text-sm text-blue-500 font-bold text-center'>{eachtrans.receiverid}</td>
-                              <td className='p-3 text-sm text-gray-700 text-center'>{eachtrans.receiver}</td>
+                              {eachtrans.receiverid == localStorage.getItem("user") ? <td className='p-3 text-sm text-blue-500 font-bold text-center'>{eachtrans.senderid}</td> :<td className='p-3 text-sm text-blue-500 font-bold text-center'>{eachtrans.receiverid}</td>}
+                              {eachtrans.receiverid == localStorage.getItem("user") ? <td className="p-3 text-sm text-blue-500 font-bold text-center">{eachtrans.sender}</td> : <td className='p-3 text-sm text-blue-500 font-bold text-center'>{eachtrans.receiver}</td> }
+                             {/* <td className='p-3 text-sm text-blue-500 font-bold text-center'>{eachtrans.receiverid}</td> */}
+                              {/* <td className='p-3 text-sm text-gray-700 text-center'>{eachtrans.receiver}</td> */}
                               <td className='p-3 text-sm text-gray-700 text-center'>{eachtrans.amount} Eth</td>
                               <td className='p-3 text-sm text-gray-700 text-center'>{eachtrans.subsidy}</td>
                               <td className='p-3 text-sm text-gray-700 text-center'>{eachtrans.transfertype}</td>
+                              {eachtrans.receiverid == localStorage.getItem("user") ? 
+                              <td className="p-3 text-sm text-white  font-bold text-center"><span className='p-1.5 text-xs font-medium uppercase tracking-wider bg-green-500 bg-opacity-50 text-green-800 rounded-full'>Received</span></td> : 
+                              <td className='p-3 text-sm  font-bold text-center'><span className='p-1.5 text-xs font-medium uppercase tracking-wider bg-yellow-500 bg-opacity-50 rounded-full text-yellow-800 '>Sent</span></td> }
                             </tr>
                           );
                       })}
@@ -90,12 +97,7 @@ function Transcations(){
                     </div>
                     <div>
                     </div>
-
-              
-
             </div>
-
-
         </div>
     </div>
     </div>
