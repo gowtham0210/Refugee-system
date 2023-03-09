@@ -181,35 +181,34 @@ function Sendmoney(){
                         <button className="bg-teal-500 rounded-full ml-60 mt-14 h-10 w-24 text-2xl hover:bg-teal-700 text-white" onClick = {call}>Send</button>
                         </div>
                     </div>
-                    <div className="ml-48 mt-20 w-98 h-auto bg-slate-600">
-                        Receipt
+                    <div className="ml-48 mt-20 w-auto h-auto mb-10 rounded-md pb-5 overflow-hidden pr-10 bg-gray-200">
+                        <p></p>Receipt
                         <div>
-                            <table>
+                            <table className="rounded-md rounded-tl-md w-full mx-5 pr-5 ">
                                 <thead></thead>
                                 <tbody>
                                     <tr>
-                                        <td>Receiver ID</td>
-                                        <td>receiverid</td>
+                                        <td className="bg-teal-50 border-b-2 border-teal-200 mb-10  p-3 font-semibold text-gray-700 text-center">Receiver ID</td>
+                                        <td className="bg-teal-100 border-b-2 border-teal-200 p-3 text-sm text-gray-700 text-center">receiverid</td>
                                     </tr>
                                     <tr>
-                                        <td>Receiver</td>
-                                        <td>receiver</td>
+                                        <td className="bg-teal-50 mt-3 border-b-2 border-teal-200 p-3 text-sm font-semibold tracking-wide text-center">Receiver</td>
+                                        <td className=" bg-teal-100 border-b-2 border-teal-200  p-3 text-sm text-gray-700 text-center">receiver</td>
                                     </tr>
                                     <tr>
-                                        <td>Amount</td>
-                                        <td>Amount</td>
+                                        <td className="bg-teal-50 border-b-2 border-teal-200 p-3 text-sm font-semibold tracking-wide text-center">Amount</td>
+                                        <td className="bg-teal-100 border-b-2 border-teal-200 p-3 text-sm text-gray-700 text-center">Amount</td>
                                     </tr>
                                     <tr>
-                                        <td>Subsidy</td>
-                                        <td>Amount</td>
+                                        <td className="bg-teal-50 border-b-2 border-teal-200 p-3 text-sm font-semibold tracking-wide text-center">Subsidy</td>
+                                        <td className=" bg-teal-100 border-b-2 border-teal-200 p-3 text-sm text-gray-700 text-center">Amount</td>
                                     </tr>
                                     <tr>
-                                        <td>Transfer Type</td>
-                                        <td>transfer type</td>
+                                        <td className="bg-teal-50 border-b-2 border-teal-200 p-3 text-sm font-semibold tracking-wide text-center">Transfer Type</td>
+                                        <td className=" bg-teal-100 border-b-2 border-teal-200 p-3 text-sm text-gray-700 text-center">transfer type</td>
                                     </tr>
                                 </tbody>
                             </table>
-
                         </div>
                     </div>
                 </div>

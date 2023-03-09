@@ -25,7 +25,7 @@ const BankSidebar = () => {
                         </li>
                         <li className='rounded-sm'>
                             <Link to="/banking/tax">
-                                Tax
+                                
                             </Link>
                         </li>
                     </ul>
