@@ -13,6 +13,11 @@ import Loan from './comps/pages/Loan';
 import Refugees from './comps/Business-pages/Refugees';
 import ConnectwithWallet from './comps/pages/ConnectwithWallet';
 import Updatelogin from './comps/pages/Updatelogin';
+import Schemes from './comps/pages/Schemes';
+import Gschemes from './comps/Business-pages/Gschemes';
+import Addnewschemes from './comps/Business-pages/Addnewschemes';
+import Viewresponse from './comps/Business-pages/Viewresponse';
+import Deleteschemes from './comps/Business-pages/Deleteschemes';
 
 
 
@@ -37,6 +42,11 @@ class App extends Component{
           <Route path="/banking/sendmoney" element={<Sendmoney />} />
           <Route path="/banking/tax" element={<Tax />} />
           <Route path="/home/connectwithwallet" element={<ConnectwithWallet />} />
+          <Route path="/government-schemes/schemes/:id" element={<Schemes />} />
+          <Route path="/bgovernment-schemes" element={<Gschemes />} />
+          <Route path="/bgovernment-schemes/add-new-scheme" element={<Addnewschemes />} />
+          <Route path="/bgovernment-schemes/view-response" element={<Viewresponse />} />
+          <Route path="/bgovernment-schemes/delete-scheme" element={<Deleteschemes />} />
         </Routes>
     </div>
   )

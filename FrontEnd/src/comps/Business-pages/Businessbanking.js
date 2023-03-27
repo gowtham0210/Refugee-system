@@ -9,7 +9,6 @@ function Businessbanking(){
          console.log(de);
          //let firstname = "dianel"
          try{
-           
             
          }catch(err){
             console.log(err);

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useContract, useContractRead } from "@thirdweb-dev/react";
-import Business_navbar from "../Business Comps/Business_navbar";
+import Businessnavbar from "../Business Comps/Businessnavbar";
 //const ethers = require('ethers');
 
 
@@ -22,7 +22,7 @@ function Refugees(){
             settotalusers(value);
         }
         console.log(isLoading)
-        
+        // eslint-disable-next-line
     },[isLoading])
 
     const getinfos = ()=>{
@@ -72,7 +72,7 @@ function Refugees(){
 
     return(
         <div>
-            <Business_navbar />
+            <Businessnavbar />
             {/*   */}
             <div className="flex flex-col my-10 mx-32 ">
                 <div className="h-auto w-11/12 bg-red-100 rounded-lg px-80 shadow-lg flex justify-center">

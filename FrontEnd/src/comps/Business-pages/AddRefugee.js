@@ -1,12 +1,12 @@
 import React from "react";
-import Business_navbar from "../Business Comps/Business_navbar";
-import Refugee_form from "../Business Comps/Refugee_form";
+import Businessnavbar from "../Business Comps/Businessnavbar";
+import Refugeeform from "../Business Comps/Refugeeform";
 
 function AddRefugee(){
  return(
     <div>
-        <Business_navbar />
-        <Refugee_form />
+        <Businessnavbar />
+        <Refugeeform />
     </div>
  )
 }

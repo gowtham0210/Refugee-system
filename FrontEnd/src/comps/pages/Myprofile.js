@@ -19,6 +19,8 @@ function Myprofile(props){
             console.log(isLoading);
             try{
                 console.log(details);
+                //localStorage.setItem("user",username)
+                localStorage.setItem("sendername",details[0]);
                 val = {
                     firstname:details[0],
                     lastname:details[1],
@@ -62,7 +64,7 @@ function Myprofile(props){
                                 Particulars
                             </th>
                             <th scope="col" className="px-44 py-3 text-white">
-                                Infos
+                                INFORMATION
                             </th>
                         </tr>
                     </thead>

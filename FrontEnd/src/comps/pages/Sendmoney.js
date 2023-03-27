@@ -16,13 +16,17 @@ function Sendmoney(){
     const [_Rname, setreceivername ]=useState();
     const [_R_userid, setreceiverid ]=useState();
     const [transtype, settransfertype ]=useState();
-    const [_amt, setamt ] = useState();
+    const [_amt, setamt] = useState();
+    const [stringsub, setstringsub] = useState("");
     const [ethamt, setethamt] = useState();
     const [_subsidy, setsubsidy ] = useState();
-    let bigamt;
+    const [sendbtnclick, setsendbtnclick] = useState(false);
+    const [sendbtn,setsendbtn] = useState(false);
+    let [bigamt, setbigamt] = useState([]);
     const { data:istrue, } =  useContractRead(contract, "chkexisitinguserId", _R_userid);
     const convertcurrency = ()=>{
-        bigamt = ethers.utils.parseEther(_amt)
+        //bigamt = ethers.utils.parseEther(_amt)
+        setbigamt(ethers.utils.parseEther(_amt))
         console.log(typeof(bigamt), bigamt);
         // const etmt = ethers.utils.formatEther(bigamt)
         // setethamt(etmt)
@@ -30,8 +34,10 @@ function Sendmoney(){
         // console.log(etmt,ethamt);
     }
 
-    const call = () => {
+    const handleclick = ()=>{
         setsenderuserid(localStorage.getItem("user"))
+        setsendername(localStorage.getItem("sendername"))
+        console.log(_S_userid, _Sname)
         if(!_R_userid){
             toast.error('😴 Enter Receiver Id', {
                 position: "top-right",
@@ -43,7 +49,6 @@ function Sendmoney(){
                 progress: undefined,
                 theme: "colored",
                 });
-
         }else if(!_Rname){
             toast.error('😴 Enter Receiver Name', {
                 position: "top-right",
@@ -78,9 +83,44 @@ function Sendmoney(){
                 theme: "colored",
                 });
         }else{
+
             convertcurrency();
             console.log(_amt, typeof(_amt));
+            calculatesubsidy();
+            setsendbtnclick(true);
+            storetranscations();
+
         }
+    }
+
+    const calculatesubsidy = ()=>{
+        const intamt = Number(_amt);
+        let subsidiesamt = 0
+        if(transtype === "Food"){
+            subsidiesamt = (intamt*20)/100;
+            setsubsidy((intamt*20)/100);
+            console.log(_subsidy)
+            console.log("Food");
+        }else if(transtype === "Gas"){
+            subsidiesamt = (intamt*18)/100;
+            setsubsidy((intamt*18)/100);
+            console.log(_subsidy)
+            console.log("Gas");
+        }else if(transtype === "LPG"){
+            subsidiesamt = (intamt*15)/100;
+            setsubsidy((intamt*15)/100);
+            console.log("LPG");
+        }else{
+            subsidiesamt = 0;
+            setsubsidy(0);
+            console.log("Empty");
+        }
+        const finalcalculatesubsidyamt = intamt - subsidiesamt;
+        console.log(intamt, subsidiesamt,"Total Amount to be sent: ",finalcalculatesubsidyamt);
+        //console.log(_subsidy.toString(),typeof(_subsidy.toString()))
+    }
+
+    const call = () => {
         if(_R_userid &&!chkusername()){
             toast.error('😴 OOPs Refugee does not exist', {
                 position: "top-right",
@@ -116,9 +156,19 @@ function Sendmoney(){
                 "Content-type": "application/json; charset=UTF-8"
             }})
             .then((response)=>{
-                if(response.status === 200){
+                if(response.status == 200){
                     console.log(response.json());
+                }else{
+                    console.log(response.status);
                 }
+            })
+            .then((data)=>{
+                
+                    console.log(data);
+                
+            })
+            .catch((err)=>{
+                console.log("There is error"+err);
             })
         }catch(err){
             console.log("The error is "+err)
@@ -127,7 +177,6 @@ function Sendmoney(){
     return(
         <div className="">
             <Navbar />
-        
             <div className="flex flex-row ">
                 <div>
                     <BankSidebar />
@@ -178,39 +227,41 @@ function Sendmoney(){
                                     </tr>
                                 </tbody>
                             </table>
-                        <button className="bg-teal-500 rounded-full ml-60 mt-14 h-10 w-24 text-2xl hover:bg-teal-700 text-white" onClick = {call}>Send</button>
+                        <button className="bg-teal-500 rounded-full ml-60 mt-14 h-10 w-24 text-2xl hover:bg-teal-700 text-white" onClick = {handleclick}>Send</button>
                         </div>
                     </div>
+                    {sendbtnclick ?
                     <div className="ml-48 mt-20 w-auto h-auto mb-10 rounded-md pb-5 overflow-hidden pr-10 bg-gray-200">
-                        <p></p>Receipt
+                        <p className="text-2xl font-bold underline text-red-500 px-80 pb-10 pt-3">Receipt</p>
                         <div>
                             <table className="rounded-md rounded-tl-md w-full mx-5 pr-5 ">
                                 <thead></thead>
                                 <tbody>
                                     <tr>
                                         <td className="bg-teal-50 border-b-2 border-teal-200 mb-10  p-3 font-semibold text-gray-700 text-center">Receiver ID</td>
-                                        <td className="bg-teal-100 border-b-2 border-teal-200 p-3 text-sm text-gray-700 text-center">receiverid</td>
+                                        <td className="bg-teal-100 border-b-2 border-teal-200 p-3 text-sm text-gray-700 text-center">{_R_userid}</td>
                                     </tr>
                                     <tr>
                                         <td className="bg-teal-50 mt-3 border-b-2 border-teal-200 p-3 text-sm font-semibold tracking-wide text-center">Receiver</td>
-                                        <td className=" bg-teal-100 border-b-2 border-teal-200  p-3 text-sm text-gray-700 text-center">receiver</td>
+                                        <td className=" bg-teal-100 border-b-2 border-teal-200  p-3 text-sm text-gray-700 text-center">{_Rname}</td>
                                     </tr>
                                     <tr>
                                         <td className="bg-teal-50 border-b-2 border-teal-200 p-3 text-sm font-semibold tracking-wide text-center">Amount</td>
-                                        <td className="bg-teal-100 border-b-2 border-teal-200 p-3 text-sm text-gray-700 text-center">Amount</td>
+                                        <td className="bg-teal-100 border-b-2 border-teal-200 p-3 text-sm text-gray-700 text-center">{_amt}</td>
                                     </tr>
                                     <tr>
                                         <td className="bg-teal-50 border-b-2 border-teal-200 p-3 text-sm font-semibold tracking-wide text-center">Subsidy</td>
-                                        <td className=" bg-teal-100 border-b-2 border-teal-200 p-3 text-sm text-gray-700 text-center">Amount</td>
+                                        <td className=" bg-teal-100 border-b-2 border-teal-200 p-3 text-sm text-gray-700 text-center">{Number(_subsidy) }</td>
                                     </tr>
                                     <tr>
                                         <td className="bg-teal-50 border-b-2 border-teal-200 p-3 text-sm font-semibold tracking-wide text-center">Transfer Type</td>
-                                        <td className=" bg-teal-100 border-b-2 border-teal-200 p-3 text-sm text-gray-700 text-center">transfer type</td>
+                                        <td className=" bg-teal-100 border-b-2 border-teal-200 p-3 text-sm text-gray-700 text-center">{transtype}</td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <button className="bg-teal-500 rounded-full ml-72 mt-10 h-10 w-52 text-md hover:bg-teal-700 text-white" onClick={call}>Send Money</button>
                         </div>
-                    </div>
+                    </div> :""}
                 </div>
         </div>
         <ToastContainer

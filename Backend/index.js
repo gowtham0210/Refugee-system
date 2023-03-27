@@ -5,6 +5,8 @@ const connectDB       =     require('./Mongodb/connect.js');
 const userlogin       =     require("./Mongodb/models/schemas");
 const businessLogin   =     require("./Mongodb/models/Business_Schemas");
 const transcation     =     require("./Mongodb/models/Transcation_Schemas");
+const GovernmentSchema = require('./Mongodb/models/GovernmentScheme_Schemas.js');
+const schemeresponse = require('./Mongodb/models/Scheme_response.js');
 
 
 require('dotenv/config')
@@ -44,11 +46,12 @@ app.post('/transcations',function(req,res){
         transfertype:_transtype
     })
     newtranscation.save(function(err,newtranscation){
-        if(err)
-        return res.send("Error display: "+err)
-        else
-        return res.send({status:200,message:"Transcation Added Successfully",Transcation:newtranscation})
-    })
+        if(err){
+            return res.send({status:400,message:err});
+        }else{
+            return res.send({status:200,message:"Transcation Added Successfully",Transcation:newtranscation});
+        }
+         })
 });
 app.get('/gettranscations',async(req,res)=>{
     const jsondata = {datas:[]}
@@ -112,7 +115,6 @@ app.patch('/updatelogin',async(req,res)=>{
     }catch(err){
         console.log("err"+err)
     }
-
 })
 
 app.get('/test',async(req,res)=>{
@@ -142,7 +144,7 @@ app.get('/businessLogin',async(req,res)=>{
                     success:true,
                     message:"Business login retrieved successfully",
                 })
-        }else{ 
+        }else{
             console.log(username,password);
             return res.status(404).json({
                 success:true,
@@ -158,9 +160,117 @@ app.get('/businessLogin',async(req,res)=>{
     }
 })
 
+app.post('/government_schemes',function(req,res){
+    const {gschemeid, gschemename, gschemedescription, gschemeimgurl,gschemeshortdescription,lastdate} = req.query
+    try{
+        let newscheme = new GovernmentSchema({
+            schemeid:gschemeid,
+            schemename:gschemename,
+            schemedescription:gschemedescription,
+            schemeshortdescription:gschemeshortdescription,
+            schemeimgurl:gschemeimgurl,
+            lastdate:lastdate
+        })
+        newscheme.save(function(err, newscheme){
+            if(err)
+            return res.send({status:404,message:"Unable to Create Scheme"})
+            else
+            return res.send({status:200,message:"Scheme Created Successfully",scheme:newscheme})
+        })
+    }catch(err){
+        console.log(err)
+        return res.send({
+            status:404,
+            message:"error"+err
+        })
+    }
+})
 
+app.get("/getschemes",async(req,res)=>{
+    try{
+        console.log("Working GetScheme")
+        const getschemes = await GovernmentSchema.find()
+        if(getschemes){
+            return res.send({status:200,schemes:getschemes})
+        }else{
+            return res.send({status:404,message:"Schemes Not Found"})
+        }
+    }catch(err){
+        console.log(err)
+        return res.send({status:400})
+    }
+})
+app.post('/postresponse',function(req,res){
+    const {schemename, username} = req.query;
+    try{
+        let newresponse = new schemeresponse({
+            username:username,
+            schemename:schemename
+        })
+        newresponse.save(function(err,newresponse){
+            if(err)
+            return res.send({status:404,message:"Unable to Fetch response"})
+            else
+            return res.send({status:200,message:"Response Fetched Successfully"})
+        })
+    }catch(err){
+        res.statusCode=400;
+        return res.send({status:400,message:err})
 
+    }
+})
+app.get('/getresponse',async(req,res)=>{
+    try{
+        const getallresponse = await schemeresponse.find()
+        if(getallresponse){
+            res.statusCode=200;
+            return res.send({status:200,allresponse:getallresponse})
+        }else{
+            res.statusCode=404;
+            return res.send({status:404, message:"Response Not Found"})
+        }
 
+    }catch(err){
+        res.statusCode=400;
+        return res.send({status:400,message:err})
+
+    }
+})
+app.get("/getsinglescheme",async(req,res)=>{
+    const schemeid = req.query;
+    try{
+        const getsinglescheme = await GovernmentSchema.findOne(schemeid)
+        if(getsinglescheme){
+            res.statusCode=200;
+            return res.send({status:200,scheme:getsinglescheme})
+        }else{
+            res.statusCode=404;
+            return res.send({status:404, message:"Schemes Not Found"})
+        }
+    }catch(err){
+        console.log(err)
+        return res.send({status:400})
+    }
+})
+
+app.get('/findresponse',async(req,res)=>{
+    const {schemename,username} = req.query;
+    try{
+        const getresponse = await  schemeresponse.findOne({username})
+        const resschemename = getresponse.schemename
+        if(schemename === resschemename && username === getresponse.username){
+            res.statusCode = 200
+            return res.send({status:200,message:"All ready Registered",responses:getresponse})
+
+        }else{
+            res.statusCode = 404
+            return res.send({status:404,message:"Not Registered",responses:getresponse})
+        }
+    }catch(err){
+        res.statusCode=400
+        return res.send({status:400,message:"Error"+err})
+    }
+})
 //Starting server
 const startserver = async ()=>{
     try{
@@ -169,7 +279,5 @@ const startserver = async ()=>{
     }catch(err){
         console.log(err)
     }
-
 }
-
 startserver();

@@ -2,12 +2,11 @@ import React from "react";
 const {Link} = require("react-router-dom");
 
 const Navbar = ()=>{
-    
     return(
         <>
             <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-blue-500 mb-0">
                 <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
-                    <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
+                    <div className="w-full text-2xl text-white relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
                         Refugee System
                     </div>
                     <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">

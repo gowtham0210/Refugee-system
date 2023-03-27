@@ -3,7 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useContract, useContractWrite, useContractRead } from "@thirdweb-dev/react";
 
-const Refugee_form = ()=>{
+const Refugeeform = ()=>{
     //const [dateofyear, setdateofyear] = useState(0);
     let password="";
     const [_userId, setuserId] = useState("");
@@ -261,4 +261,4 @@ const Refugee_form = ()=>{
 
 }
 
-export default Refugee_form;
+export default Refugeeform;
