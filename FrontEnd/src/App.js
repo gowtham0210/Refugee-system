@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import AddRefugee from './comps/Business-pages/AddRefugee';
 import Home from './comps/pages/Home';
-import Banking from './comps/pages/Banking';
+// import Banking from './comps/pages/Banking';
 import Govtschemes from './comps/pages/Govtschemes';
 import Tax from './comps/pages/Tax';
 import Login from './comps/pages/Login';
@@ -34,7 +34,7 @@ class App extends Component{
           <Route path="/home" element={<Home />}/>
           <Route path="/banking/transcations" element={<Transcations />}/>
           <Route path="/government-schemes" element={<Govtschemes />} />
-          <Route path="/tax" element={<Tax />} />
+          <Route path="/Loan" element={<Loan />} />
           <Route path="/login" element={<Login />} />
           <Route path="/home/myprofile" element={<Myprofile />} />
           <Route path="/home/updatelogin" element={<Updatelogin />} />

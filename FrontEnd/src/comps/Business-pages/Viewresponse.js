@@ -44,15 +44,6 @@ function Viewresponse(){
                                             </tr>
                                         </thead>
                                         <tbody className='bg-white divide-y divide-gray-300'>
-                                            <tr className='whitespace-nowrap'>
-                                                <td className="px-6 py-4 text-sm text-gray-500">
-                                                    gowtham0210
-                                                 </td>
-                                                 <td className="px-6 py-4 text-sm text-gray-500">
-                                                    Refugee Fund
-                                                 </td>
-
-                                            </tr>
                                             {data.map((eachresponse)=>{
                                                 return(
                                                     <tr className='whitespace-nowrap' key={eachresponse._id}>

@@ -200,6 +200,24 @@ app.get("/getschemes",async(req,res)=>{
         return res.send({status:400})
     }
 })
+
+app.delete('/deleteschemes',async(req,res)=>{
+    const schemeid = req.query;
+    try{
+        const result = await GovernmentSchema.deleteOne(schemeid)
+        if(result.deletedCount === 1){
+            statusCode = 200
+            return res.send({status:200,message:"Deleted Successfully"})
+        }else{
+            statusCode = 404
+            return res.send({status:404, message:"Scheme Not Deleted"})
+        }
+    }catch(err){
+        console.log(err)
+        return res.send({status:400, message:"err"+err})
+    }
+})
+
 app.post('/postresponse',function(req,res){
     const {schemename, username} = req.query;
     try{
@@ -271,6 +289,7 @@ app.get('/findresponse',async(req,res)=>{
         return res.send({status:400,message:"Error"+err})
     }
 })
+
 //Starting server
 const startserver = async ()=>{
     try{
