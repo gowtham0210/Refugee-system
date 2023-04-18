@@ -7,6 +7,7 @@ const businessLogin   =     require("./Mongodb/models/Business_Schemas");
 const transcation     =     require("./Mongodb/models/Transcation_Schemas");
 const GovernmentSchema = require('./Mongodb/models/GovernmentScheme_Schemas.js');
 const schemeresponse = require('./Mongodb/models/Scheme_response.js');
+const storeloanrequest = require('./Mongodb/models/Storeloanrequest');
 
 
 require('dotenv/config')
@@ -15,6 +16,7 @@ require('dotenv/config')
 const app = express();
 app.use(cors());
 app.use(express.json({limit:'100mb'}));
+
 
 app.get('/',(req,res)=>{
     res.send({message:'Hello World'});
@@ -290,6 +292,63 @@ app.get('/findresponse',async(req,res)=>{
     }
 })
 
+app.post('/storeloanrequest',async(req,res)=>{
+    const {username,loanamt,loanpurpose, citizenmobilenumber1,citizenmobilenumber2,citizenmobilenumber3} = req.query;
+    try{
+        let loanrequest = new storeloanrequest({
+            username:username,
+            loanamt:loanamt,
+            loanpurpose:loanpurpose,
+            citizenmobilenumber1:citizenmobilenumber1,
+            citizenmobilenumber2:citizenmobilenumber2,
+            citizenmobilenumber3:citizenmobilenumber3
+        })
+        loanrequest.save(function(err,loanrequest){
+            if(err){
+                statusCode = 400
+                return res.send({status:400, message:"Error : "+err})
+            }else{
+                statusCode = 200
+                return res.send({status:200, message:"Successfull"})
+            }
+        })
+    }catch(err){
+        res.statusCode=400
+        return res.send({status:400, message:"Error"+err})
+
+    }
+})
+
+app.get('/loanrequest', async(req,res)=>{
+    try{
+        const allLoanrequest = await storeloanrequest.find()
+        if(allLoanrequest){
+            res.statusCode = 200;
+            return res.send({status:200, allLoanrequest:allLoanrequest})
+        }else{
+            res.StatusCode = 404;
+            return res.send({status:400, message:"Unable to fetch the loan Request"})
+        }
+
+    }catch(err){
+        res.statusCode=404;
+        return res.send({status:400,message:"Error : "+err})
+    }
+})
+app.patch('/updateloanrequest',async(req,res)=>{
+    try{
+        const {username,status} = req.query;
+        const updateloanreq = await storeloanrequest.updateOne({username:username},{$set:{status:status}});
+        console.log("Update Loan Request")
+        return res.status(200).json({
+            success:true,
+            message:"Update loan Request",
+            update:updateloanreq
+        })
+    }catch(err){
+        console.log("Error"+err)
+    }
+})
 //Starting server
 const startserver = async ()=>{
     try{

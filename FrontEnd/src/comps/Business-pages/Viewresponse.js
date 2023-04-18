@@ -20,7 +20,6 @@ function Viewresponse(){
         }
     },[])
     return (
-
         <div>
             <Businessnavbar />
             <div className='flex flex-row bg-gray-200'>

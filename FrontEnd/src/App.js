@@ -18,6 +18,7 @@ import Gschemes from './comps/Business-pages/Gschemes';
 import Addnewschemes from './comps/Business-pages/Addnewschemes';
 import Viewresponse from './comps/Business-pages/Viewresponse';
 import Deleteschemes from './comps/Business-pages/Deleteschemes';
+import Bloan from './comps/Business-pages/Bloan';
 
 
 
@@ -39,6 +40,7 @@ class App extends Component{
           <Route path="/home/myprofile" element={<Myprofile />} />
           <Route path="/home/updatelogin" element={<Updatelogin />} />
           {/* <Route path="/transcations" element={<Transcations />} /> */}
+          <Route path="/bloan" element = {<Bloan />} />
           <Route path="/banking/sendmoney" element={<Sendmoney />} />
           <Route path="/banking/tax" element={<Tax />} />
           <Route path="/home/connectwithwallet" element={<ConnectwithWallet />} />

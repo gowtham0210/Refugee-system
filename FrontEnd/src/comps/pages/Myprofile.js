@@ -38,10 +38,7 @@ function Myprofile(props){
             //console.log(userinfo);
     },[])
         // const handleclick=()=>{
-            
         // }
-
-    
   return (
     <div>
         <Navbar />

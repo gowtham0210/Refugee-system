@@ -163,9 +163,7 @@ function Sendmoney(){
                 }
             })
             .then((data)=>{
-                
                     console.log(data);
-                
             })
             .catch((err)=>{
                 console.log("There is error"+err);

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Navbar from '../Navbar';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+
 function Loan(){
     const [username, setusername] = useState();
     const [loanamt,  setloanamt] = useState();
@@ -15,12 +17,108 @@ function Loan(){
     const [verifycitizen1, setverifycitizen1] = useState(false);
     const [verifycitizen2, setverifycitizen2] = useState(false);
     const [verifycitizen3, setverifycitizen3] = useState(false);
-    
+
 
     const handlesubmit = ()=>{
         console.log("username - "+username+" Loan amount - "+loanamt+" purpose -"+purpose+" mobile number - 1 "+ mobilenum1+ " mobile number - 2 "+ mobilenum2+" mobile number - 3"+mobilenum3);
         if(!username){
-
+            toast.error('😴 Enter Username', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+        }else if(!loanamt){
+            toast.error('😴 Enter Loan Amount', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+        }else if(!purpose){
+            toast.error('😴 Loan purpose should not be empty', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+        }else if(!mobilenum1){
+            toast.error('😴 Mobile Number-1 should not be empty', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+        }else if(!mobilenum2){
+            toast.error('😴 Mobile Number-2 should not be empty', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+        }else if(!mobilenum3){
+            toast.error('😴 Mobile Number-3 should not be empty', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+        }else{
+            try{
+                fetch(`http://localhost:8080/storeloanrequest?username=${username}&loanamt=${loanamt}&loanpurpose=${purpose}&citizenmobilenumber1=${mobilenum1}&citizenmobilenumber2=${mobilenum2}&citizenmobilenumber3=${mobilenum3}`,
+                {method:'POST',headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }})
+                .then((response)=>{
+                    if(response.status == 200){
+                        console.log(response.json());
+                        toast.success('Request Submitted Successfully', {
+                            position: "top-right",
+                            autoClose: 3000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                            });
+                    }else{
+                        console.log(response.status);
+                    }
+                })
+                .then((data)=>{
+                    console.log(data);
+                })
+                .catch((err)=>{
+                    console.log("There is error"+err);
+                })
+            }catch(err){
+                console.log("Error" + err);
+            }
         }
     }
     const getotp1 = ()=>{
@@ -109,7 +207,6 @@ function Loan(){
             }
             )
             .catch(err => console.error(err));
-
     }
     const verifyotp2 = ()=>{
         const options = {
@@ -197,6 +294,7 @@ function Loan(){
     <div>
         <Navbar />
         <div className="flex flex-row bg-gray-200">
+            <div className="recaptcha-container"></div>
         <div className='container mx-auto'>
             <div className='max-w-5xl p-5 mx-auto my-10 bg-white rounded-md shadow-sm'>
                 <div className='text-center'>
@@ -222,10 +320,12 @@ function Loan(){
                         <label  className="block mb-2 text-sm text-gray-600 ml-80">Enter OTP</label>
                     </div>
                     <div className="flex flex-row">
-                        <input type="text" name="name" placeholder="Citizen-1 Mobile Number" onChange={(e)=>setmobilenum1(e.target.value)}   required className="w-96 h-12 px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md  focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"/>
-                        <button onClick={getotp1} className="ml-5 h-12 px-2 py-4 text-white text-sm bg-green-500 rounded-md  focus:bg-green-600 focus:outline-none">Get OTP</button>
+                        
+
+                        <input type="text"  name="name" placeholder="Citizen-1 Mobile Number" onChange={(e)=>setmobilenum1(e.target.value)}   required className="w-96 h-12 px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md  focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"/>
+                        <button  className="ml-5 h-12 px-2 py-4 text-white text-sm bg-green-500 rounded-md  focus:bg-green-600 focus:outline-none">Get OTP</button>
                         <input type="text" name="name" onChange={(e)=>setotp1(e.target.value)} placeholder="Enter OTP here"   required className=" ml-10 w-96 h-12 px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md  focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"/>
-                        <button onClick={verifyotp1} className="ml-5 h-12 px-2 py-4 text-white text-sm bg-green-500 rounded-md  focus:bg-green-600 focus:outline-none">Check</button>
+                        <button onClick={verifyotp1}  className="ml-5 h-12 px-2 py-4 text-white text-sm bg-green-500 rounded-md  focus:bg-green-600 focus:outline-none">Check</button>
                     </div>
                     <span className="text-gray-400 text-sm">&nbsp;By entering your mobile number, you are authorizing the refugee</span>
                 </div>
@@ -256,7 +356,6 @@ function Loan(){
                     <span className="text-gray-400 text-sm">&nbsp;By entering your mobile number, you are authorizing the refugee</span>
                 </div>
                 <div className="mb-6">
-                    
                     <button type="submit" onClick={handlesubmit}  className="w-full px-2 py-4 text-white bg-indigo-500 rounded-md  focus:bg-indigo-600 focus:outline-none">Submit</button>
                 </div>
             </div>

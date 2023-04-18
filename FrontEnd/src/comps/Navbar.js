@@ -80,7 +80,6 @@ const Navbar = ()=>{
                                 </Link>
                             </div>
                         </li>
-                        
                     </ul>
                 </div>
             </nav>
